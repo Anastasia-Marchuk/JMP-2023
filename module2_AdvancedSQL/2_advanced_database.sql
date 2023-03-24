@@ -162,31 +162,27 @@ HAVING count(name)=1;
 
 --8.Select all subjects which exams passed only students with the different primary skills. It means that all students passed the exam for the one subject must have different primary skill.
 Select sub_name from(
-  Select subjet_name as "sub_name", count(distinct primary_skill) as "num_diff_skills" 	from(
-  Select primary_skill,subjet_name as "subjet_name"
-  from(Select  s.id as "student_id",s.name as "name",s.surname, s.primary_skill as "primary_skill",sub.name as "subjet_name", e.mark
+    Select subjet_name as "sub_name", count(distinct primary_skill) as "num_diff_skills" from(	
+	Select  s.primary_skill as "primary_skill",sub.name as "subjet_name", e.mark
     from student s
 	left join exam_result e on e.student_id=s.id
-    left join subject sub on e.subject_id=sub.id
+        left join subject sub on e.subject_id=sub.id
 	left join exam_result skill on skill.student_id=s.id
 	where e.mark>3 
 	Group by s.id,s.name,s.surname,	primary_skill,sub.name,e.mark 
-	order by 5,4) as t
-	Group by subjet_name,primary_skill order by 2
-	) as t2	group by subjet_name) as t8
+	order by 2,1) as t
+	Group by subjet_name) as t8
 	Full  join 
-(Select subjet_name,count( subjet_name) as "num_students_passed_exam"	from(
-Select student_id,subjet_name as "subjet_name", count(distinct subjet_name) as "num_students_passed_exam" 
-from(Select  s.id as "student_id",s.name as "name",s.surname, s.primary_skill as "primary_skill",sub.name as "subjet_name", e.mark
+   (Select count(*) as "num_students_passed_exam", subjet_name from(
+    Select  s.name as "name",s.surname,sub.name as "subjet_name"
     from student s
 	left join exam_result e on e.student_id=s.id
-    left join subject sub on e.subject_id=sub.id
+        left join subject sub on e.subject_id=sub.id
 	left join exam_result skill on skill.student_id=s.id
 	where e.mark>3 
-	Group by s.id,s.name,s.surname,	primary_skill,sub.name,e.mark 
-	order by 5,4) as t
-	Group by student_id,subjet_name order by 2) as t2
-	group by subjet_name)as t9 on t9.subjet_name=t8.sub_name
+	Group by s.name,s.surname,sub.name
+	order by 3,2) as t
+	Group by subjet_name order by 1)as t9 on t9.subjet_name=t8.sub_name
 	where num_diff_skills=num_students_passed_exam;
 
 
