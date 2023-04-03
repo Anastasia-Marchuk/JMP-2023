@@ -85,22 +85,28 @@ Select subject_id from subject
 order by random() limit 1; 
 $$;
 
-5 GETTING RANDOM SUBJECT
+5 GETTING RANDOM SUBJECT_ID:
+CREATE FUNCTION generate_random_student_id() RETURNS INT LANGUAGE SQL AS $$ 
+Select student_id from subject 
+order by random() limit 1; 
+$$;
+
+6 GETTING RANDOM SUBJECT
 CREATE FUNCTION generate_random_subject() RETURNS TEXT LANGUAGE SQL AS $$ 
 select (array['economics', 'medecine', 'computer science','mathematics','algebra','biology', 'chemistry'])[ random()*(7-1)+1];
 $$;
 
-6 GETTING RANDOM MENTOR NAME
+7 GETTING RANDOM MENTOR NAME
 CREATE FUNCTION generate_mentor_random_name() RETURNS TEXT LANGUAGE SQL AS $$ 
 select (array['Alex A.', 'Alex B.', 'Alex C.', 'John M.', 'Sara A.', 'Sara B.','Jimmy K.','Kate L.','Leyla N.'])[random()*(9-1)+1]; 
 $$;
 
-7 GETTING RANDOM MARK:
+8 GETTING RANDOM MARK:
 CREATE FUNCTION get_random_mark() RETURNS INT LANGUAGE SQL AS $$ 
 Select floor (random()*(10-1+1)+1); 
 $$;
 
-8 FILLING TABLE ‘STUDENTS’ 
+9 FILLING TABLE ‘STUDENTS’ 
 CREATE FUNCTION insert_data_into_students_table() RETURNS VOID LANGUAGE PLPGSQL AS $$
 DECLARE name TEXT= INITCAP(generate_student_random_name());
 DECLARE surname TEXT= INITCAP(generate_random_surname ());
@@ -111,7 +117,7 @@ BEGIN
 INSERT INTO students (name, surname, birth_date , phone_number ) VALUES (first_name, last_name, date_of_birth, mobile_no);
 END;
 
-9 FILLING TABLE ‘SUBJECT’ 
+10 FILLING TABLE ‘SUBJECT’ 
 CREATE FUNCTION insert_data_into_subject_table() RETURNS VOID LANGUAGE PLPGSQL AS $$
 DECLARE subject_name TEXT= INITCAP(generate_random_subject());
 DECLARE mentor_name TEXT= INITCAP(generate_mentor_random_name());
@@ -120,14 +126,14 @@ BEGIN
 INSERT INTO subject (subject_name, mentor_name) VALUES (subject_name, mentor_name);
 END;
 
-10 FILLING TABLE ‘EXAM_RESULT’ 
+11 FILLING TABLE ‘EXAM_RESULT’ 
 CREATE FUNCTION insert_data_into_exam_result() RETURNS TABLE  LANGUAGE SQL AS $$
 DECLARE student_id INT= INITCAP(generate_random_student_id());
 DECLARE subject_id INT= INITCAP(generate_random_subject_id());
 DECLARE mark INT= INITCAP(generate_random_mark());
 
 BEGIN
-INSERT INTO subject (student_id, subject_id, mark ) VALUES (student_id, subject_id, mark);
+INSERT INTO exam_result (student_id, subject_id, mark ) VALUES (student_id, subject_id, mark);
 END;
 
 
