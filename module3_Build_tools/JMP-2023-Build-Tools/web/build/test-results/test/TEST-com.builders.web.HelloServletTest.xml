@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.builders.web.HelloServletTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-04-01T20:53:08" hostname="EPBYBREW0003" time="0.003">
+  <properties/>
+  <testcase name="testHello" classname="com.builders.web.HelloServletTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
